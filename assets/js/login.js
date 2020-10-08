@@ -100,7 +100,7 @@ $.ajax({
     }
     else(
       localStorage.setItem('token', res.token),
-      location.href='http://127.0.0.1:5500/BigEvent/index.html'
+      location.href='/index.html'
     )
   }
 })

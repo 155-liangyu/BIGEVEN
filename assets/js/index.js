@@ -1,8 +1,9 @@
 $(function() {
   // // 调用 getUserInfo 获取用户基本信息
   // getUserInfo()
-
-  // var layer = layui.layer
+  var layer = layui.layer;
+  
+  console.log(layer);
 
   // // 点击按钮，实现退出功能
   // $('#btnLogout').on('click', function() {
@@ -18,20 +19,51 @@ $(function() {
   //     layer.close(index)
   //   })
   // })
+  getUserInfo()
+  $('#btnLogout').on('click',function(){
+    
+    layer.confirm('确定退出登录吗?', {icon: 3, title:'提示'}, function(index){
+      //do something
+      console.log(666);
+      localStorage.removeItem('token');
+      location.href='/login.html'
+      layer.close(index);
+    
+    });
+  })
+
 })
 
-获取用户的基本信息
-function getUserInfo() {
+
+// function getUserInfo() {
+//   $.ajax({
+//     method: 'GET',
+//     url: '/my/userinfo',
+//     success: function(res) {
+//       if (res.status !== 0) {
+//         return layui.layer.msg('获取用户信息失败！')
+//       }
+//       // 调用 renderAvatar 渲染用户的头像
+//       renderAvatar(res.data)
+//     }
+
+
+function getUserInfo(){
   $.ajax({
-    method: 'GET',
-    url: '/my/userinfo',
-    success: function(res) {
-      if (res.status !== 0) {
-        return layui.layer.msg('获取用户信息失败！')
+    method:'GET',
+    url:'/my/userinfo',
+   
+    success:function(res){
+      console.log(res);
+      if(res.status!==0){
+      return layer.msg("获取用户基本信息失败")
       }
-      // 调用 renderAvatar 渲染用户的头像
-      renderAvatar(res.data)
+renderAvatar(res.data)
     }
+  })
+}
+
+
     // 不论成功还是失败，最终都会调用 complete 回调函数
     // complete: function(res) {
     //   // console.log('执行了 complete 回调：')
@@ -44,8 +76,8 @@ function getUserInfo() {
     //     location.href = '/login.html'
     //   }
     // }
-  })
-}
+//   })
+// }
 
 // 渲染用户的头像
 function renderAvatar(user) {
